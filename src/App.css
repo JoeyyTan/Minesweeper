@@ -1,0 +1,96 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.game {
+  padding: .5rem 1.5rem;
+  border-radius: 1rem;
+  background-color: var(--surface-color);
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  --cell-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(var(--cell-size) * 0.75);
+  font-weight: 700;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: 1px solid var(--cell-border-color);
+  user-select: none;
+  cursor: default;
+  position: relative;
+  box-sizing: border-box; 
+}
+
+.cell.one {
+  color: var(--one);  
+}
+
+.cell.two {
+  color: var(--two);
+}
+
+.cell.three {
+  color: var(--three);
+}
+
+.cell.four {
+  color: var(--four);
+}
+
+.cell.five {
+  color: var(--five);
+}
+
+.cell.six {
+  color: var(--six);
+}
+
+.cell.seven {
+  color: var(--seven);
+}
+
+.cell.eight {
+  color: var(--eight);
+}
+
+.cell img{
+  width: 75%;
+  height: 75%;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: var(--overlay-mid);
+  border-style: solid;
+  border-width: 2.25px;
+  border-top-color: var(--overlay-light);
+  border-left-color: var(--overlay-light);
+  border-right-color: var(--overlay-dark);
+  border-bottom-color: var(--overlay-dark);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  box-shadow: 3px 3px 8px #33333366;
+  opacity: 0.5; /* development only */
+}
+
+.flag {
+  display: none;
+}
+
+.flag.visible {
+  display: block;
+}

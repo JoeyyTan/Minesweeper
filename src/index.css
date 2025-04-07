@@ -1,0 +1,40 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  --surface-color: #ccc;
+  --app-bg: #151515;
+  --text: #1a1a1a;
+  --cell-border-color: #bbb;
+  --one: #0000ff;      
+  --two: #008000;     
+  --three: #ff0000;   
+  --four: #000080;     
+  --five: #800000;     
+  --six: #008080;     
+  --seven: #800080;   
+  --eight: #808080;   
+  --overlay-light: #fff;
+  --overlay-mid: #ccc;
+  --overlay-dark: #aaa;
+  
+  
+  background-color: var(--app-bg);
+  color: var(--text);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+
