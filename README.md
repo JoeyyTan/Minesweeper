@@ -1,54 +1,54 @@
-# React + TypeScript + Vite
+# Minesweeper Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+This is a customizable Minesweeper game built with React. It includes classic Minesweeper gameplay with additional features for custom board generation.
 
-Currently, two official plugins are available:
+## Features
+- Three difficulty levels: Easy, Medium, Expert
+- Custom game mode with adjustable board size and mine count
+- Responsive design for various screen sizes
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Dependencies
+All required dependencies are already included in the `package.json` file. The project uses the following main dependencies:
 
-## Expanding the ESLint configuration
+- **React**: A JavaScript library for building user interfaces
+- **Vite**: A build tool that provides a faster and leaner development experience for modern web projects
+- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript
+- **clsx**: A utility for constructing `className` strings conditionally
+- **react-confetti**: For the celebration effect when winning
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+You don't need to install any dependencies individually. Simply run:
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This will automatically install all the required dependencies listed in the package.json file.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Installation
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+   All required dependencies are already included in the package.json file (see [Dependencies](#dependencies) section).
+
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:5173/`.
+
+## Usage
+- Select a difficulty level or create a custom game.
+- Click on cells to reveal them.
+- Right-click to place flags on suspected mines.
+- The game ends when all non-mine cells are revealed or a mine is clicked.
+
+## Customization
+- Modify the `src/constants/index.ts` file to adjust default levels and settings.
+- Update styles in `src/App.css` to change the theme and appearance.
