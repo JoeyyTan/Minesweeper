@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Board from "./components/Board";
 import SelectLevel from "./components/SelectLevel";
 import Confetti from "./components/Confetti.tsx";
+import CustomGameForm from "./components/CustomGameForm";
 
 // Game logic
 import useMinesweeperGame from "./hooks/useMinesweeperGame";
@@ -14,6 +15,8 @@ function App() {
   const {
     level,
     changeLevel,
+    customSettings,
+    setCustomGameSettings,
     gameBoard,
     minesLeft,
     timeDiff,
@@ -44,6 +47,11 @@ function App() {
         level={level}
       />
       <SelectLevel level={level} changeLevel={changeLevel} />
+      <CustomGameForm 
+        isVisible={level === "custom"} 
+        defaultSettings={customSettings}
+        onSubmit={setCustomGameSettings}
+      />
       {isGameWin && <Confetti />}
     </div>
   );

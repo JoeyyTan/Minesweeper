@@ -1,12 +1,7 @@
-// Core
 import { MouseEvent, useCallback, useEffect, useState } from "react";
 import useTimer from "./useTimer.tsx";
 import useSFX from "./useSFX.tsx";
-
-// Constants
 import { DEFAULT_LEVEL, LEVELS } from "../constants";
-
-// Utils
 import {
   checkGameWin,
   initBoard,
@@ -15,15 +10,20 @@ import {
   revealEmptyCells,
 } from "../utils";
 
-// Types
-import type { TBoard, TLevel } from "../types";
+import type { TBoard, TLevel, CustomGameSettings } from "../types";
 
 const useMinesweeperGame = () => {
   const [level, setLevel] = useState<TLevel>("easy");
-  const currentLevel = LEVELS[level];
+  const [customSettings, setCustomSettings] = useState<CustomGameSettings>(LEVELS.custom);
+  const currentLevel = level === "custom" ? customSettings : LEVELS[level as keyof typeof LEVELS];
 
   const changeLevel = useCallback((selectedLevel: TLevel) => {
     setLevel(selectedLevel);
+  }, []);
+
+  const setCustomGameSettings = useCallback((settings: CustomGameSettings) => {
+    setCustomSettings(settings);
+    setLevel("custom");
   }, []);
 
   const [gameBoard, setGameBoard] = useState<TBoard>(
@@ -33,13 +33,6 @@ const useMinesweeperGame = () => {
       LEVELS[DEFAULT_LEVEL].totalMines
     )
   );
-
-  //   useEffect(() => {
-  //     localStorage.setItem(
-  //       LOCAL_STORAGE_KEYS.gameBoard,
-  //       JSON.stringify(gameBoard)
-  //     );
-  //   }, [gameBoard]);
 
   const [isGameWin, setIsGameWin] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
@@ -237,6 +230,8 @@ const useMinesweeperGame = () => {
   return {
     level,
     changeLevel,
+    customSettings,
+    setCustomGameSettings,
     gameBoard,
     minesLeft,
     timeDiff,

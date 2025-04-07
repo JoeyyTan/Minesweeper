@@ -31,8 +31,18 @@ const Header = ({
         />
       </div>
       <div className="header-buttons">
-        <button onClick={startNewGame}>New</button>
-        <button onClick={restartGame}>Restart</button>
+        <button 
+          onClick={startNewGame}
+          className="btn-primary"
+        >
+          New
+        </button>
+        <button 
+          onClick={restartGame}
+          className="btn-secondary"
+        >
+          Restart
+        </button>
       </div>
       <div className="header-label">
         <TimerDisplay timeDiff={timeDiff} />

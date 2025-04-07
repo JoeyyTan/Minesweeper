@@ -6,7 +6,7 @@
         fill: none;
       }
       .path {
-fill: #111
+        fill: white;
       }
     </style>
   </defs>

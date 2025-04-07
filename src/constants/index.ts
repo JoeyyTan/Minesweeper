@@ -43,6 +43,11 @@ export const LEVELS = {
     cols: 30,
     totalMines: 99,
   },
+  custom: {
+    rows: 10,
+    cols: 10,
+    totalMines: 15,
+  },
 };
 
 export const DEFAULT_LEVEL: TLevel = "easy";

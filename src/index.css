@@ -3,25 +3,38 @@
   line-height: 1.5;
   font-weight: 400;
 
-  --app-bg: #151515;
-  --text: #1a1a1a;
-  --surface: #ccc;
-  --btn-color: #151515;
-  --btn-active: #555;
-  --cell-border-color: #bbbbbb;
-  --one: blue;
-  --two: green;
-  --three: tomato;
-  --four: darkviolet;
-  --five: darkred;
-  --six: steelblue;
-  --seven: black;
-  --eight: black;
-  --red: firebrick;
-  --green: forestgreen;
 
-  background-color: var(--app-bg);
+  --primary-gradient: linear-gradient(45deg, #ff5975, #8a49ff);
+  --accent-yellow: #ffdc5c;
+  --accent-teal: #4fd1d9;
+  --surface: #ffffff;
+  --text: #333333;
+  --btn-color: #ff5975;
+  --btn-active: #8a49ff;
+  
+  /* Cell colors */
+  --cell-border-color: #e0e0e0;
+  --cell-bg-closed: #f8f8f8;
+  --cell-bg-opened: #ffffff;
+  --cell-mine-red: #ff5975;
+  --cell-mine-green: #4fd1d9;
+  
+  /* Number colors */
+  --one: #ff5975;
+  --two: #4fd1d9;
+  --three: #ff9c24;
+  --four: #9a49fe;
+  --five: #f76797;
+  --six: #44b6fe;
+  --seven: #ffdc5c;
+  --eight: #ff5975;
+  
+  --red: #ff5975;
+  --green: #4fd1d9;
+
+  color-scheme: light dark;
   color: var(--text);
+  background-color: #f4f8fb;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -37,7 +50,16 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 380px;
+  min-width: 320px;
   min-height: 100vh;
-  overflow: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #222222;
+    --text: #ffffff;
+    --cell-border-color: #333333;
+    --cell-bg-closed: #444444;
+    --cell-bg-opened: #555555;
+  }
 }

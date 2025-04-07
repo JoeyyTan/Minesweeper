@@ -1,25 +1,36 @@
 import clsx from "clsx";
 import { LEVELS } from "../constants";
 import { memo } from "react";
+import { TLevel } from "../types";
 
 type SelectedLevelProps = {
-  level: string;
-  changeLevel: (selectedLevelName: keyof typeof LEVELS) => void;
+  level: TLevel;
+  changeLevel: (selectedLevelName: TLevel) => void;
 };
 
 const SelectLevel = memo(({ level, changeLevel }: SelectedLevelProps) => {
+  const standardLevels = Object.keys(LEVELS).filter(levelName => levelName !== "custom");
+  
   return (
     <ul className="select-level">
-      {Object.keys(LEVELS).map((levelName) => (
+      {standardLevels.map((levelName) => (
         <li key={levelName}>
           <button
             className={clsx(level === levelName && "active")}
-            onClick={() => changeLevel(levelName as keyof typeof LEVELS)}
+            onClick={() => changeLevel(levelName as TLevel)}
           >
             {levelName}
           </button>
         </li>
       ))}
+      <li>
+        <button
+          className={clsx(level === "custom" && "active")}
+          onClick={() => changeLevel("custom")}
+        >
+          custom
+        </button>
+      </li>
     </ul>
   );
 });

@@ -38,4 +38,11 @@ export type GameCell =
   | EmptyCell;
 
 export type TBoard = GameCell[][];
-export type TLevel = keyof typeof LEVELS;
+export type TLevel = keyof typeof LEVELS | "custom";
+
+// Custom Game Settings
+export type CustomGameSettings = {
+  rows: number;
+  cols: number;
+  totalMines: number;
+};

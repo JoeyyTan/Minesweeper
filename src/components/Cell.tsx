@@ -1,13 +1,8 @@
-// Core
 import { MouseEvent, memo } from "react";
 import clsx from "clsx";
 import { CELL_NUMBERS_COLORS } from "../constants";
-
-// Assets
 import mineIcon from "/icons/bomb.svg";
 import flagIcon from "/icons/red-flag.png";
-
-// Typescript
 import { GameCell, OpenedMineCell, TLevel } from "../types";
 
 type Props = {
