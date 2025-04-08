@@ -1,6 +1,5 @@
 import { MouseEvent, useCallback, useEffect, useState } from "react";
 import useTimer from "./useTimer.tsx";
-import useSFX from "./useSFX.tsx";
 import { DEFAULT_LEVEL, LEVELS } from "../constants";
 import {
   checkGameWin,
@@ -43,8 +42,6 @@ const useMinesweeperGame = () => {
 
   const { timeDiff, isTimerRunning, startTimer, stopTimer, resetTimer } =
     useTimer();
-
-  const { playSoundEffect } = useSFX();
 
   const resetBoard = useCallback(
     (isRestart?: boolean) => {
@@ -109,15 +106,12 @@ const useMinesweeperGame = () => {
       if (isMineCell) {
         cell.highlight = "red";
         setIsGameOver(true);
-        playSoundEffect("GAME_OVER");
         revealAllMines(newGameBoard);
       }
 
       if (!isMineCell) {
         cell.isOpened = true;
         if (cell.value === 0) {
-          playSoundEffect("REVEAL_EMPTY");
-
           revealEmptyCells(
             newGameBoard,
             currentLevel.rows,
@@ -128,19 +122,17 @@ const useMinesweeperGame = () => {
         }
 
         if (isNumberCell) {
-          playSoundEffect("REVEAL_NUMBER");
         }
 
         if (checkGameWin(newGameBoard, currentLevel.totalMines)) {
           revealAllMines(newGameBoard, true);
           setIsGameWin(true);
-          playSoundEffect("GAME_WIN");
         }
       }
 
       return newGameBoard;
     },
-    [currentLevel, isTimerRunning, playSoundEffect, startTimer]
+    [currentLevel, isTimerRunning, startTimer]
   );
 
   const handleCellLeftClick = useCallback(
@@ -197,19 +189,16 @@ const useMinesweeperGame = () => {
         if (cell.isFlagged) {
           newGameBoard[row][col].isFlagged = false;
           if (!flagsDiff) flagsDiff--;
-          playSoundEffect("FLAG_REMOVE");
         }
 
         if (!cell.isFlagged) {
           newGameBoard[row][col].isFlagged = true;
           if (!flagsDiff) flagsDiff++;
-          playSoundEffect("FLAG_PLACE");
         }
 
         if (checkGameWin(newGameBoard, currentLevel.totalMines)) {
           revealAllMines(newGameBoard, true);
           setIsGameWin(true);
-          playSoundEffect("GAME_WIN");
         }
 
         return newGameBoard;
@@ -222,7 +211,6 @@ const useMinesweeperGame = () => {
       isGameEnded,
       isTimerRunning,
       currentLevel.totalMines,
-      playSoundEffect,
       startTimer,
     ]
   );
