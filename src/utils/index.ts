@@ -1,6 +1,11 @@
 import { GameCell, TBoard } from "../types";
 import { DIRECTIONS } from "../constants";
 
+/**
+ * Reveals an empty 2D array of cells with the specified number of rows and columns.
+ * Each cell is initialized with null value, isFlagged set to false, and isOpened set to false.
+ */
+
 const createBoard = (rows: number, cols: number) => {
   const board: TBoard = [];
 
@@ -19,6 +24,13 @@ const createBoard = (rows: number, cols: number) => {
   return board;
 };
 
+/**
+ * Randomly places the specified number of mines on the board.
+ * Uses a while loop to ensure that the number of mines is less than the total number of mines
+ * and ensure exactly totalMines mines are placed on the board.
+ * Avoids placing mines on the same cell.
+ */
+
 const fillBoardWithMines = (
   board: TBoard,
   rows: number,
@@ -36,10 +48,14 @@ const fillBoardWithMines = (
       mines++;
     }
   }
-
   return board;
 };
 
+/**
+ * Calculates the number of adjacent mines for each cell.
+ * Uses the DIRECTIONS constant to check all 8 surrounding cells.
+ * Assigns a number value to each non-mine cell based on adjacent mines
+ */
 const fillBoardWithNumbers = (board: TBoard) => {
   // const finalBoard: TBoard = JSON.parse(JSON.stringify(boardWithMines));
 
@@ -67,6 +83,12 @@ const fillBoardWithNumbers = (board: TBoard) => {
   return board;
 };
 
+/**
+ * Main board initialization function, combining all steps
+ * 1. Create an empty board
+ * 2. Place mines
+ * 3. Calculate numbers for each cell
+ */
 export const initBoard = (rows: number, cols: number, totalMines: number) => {
   const emptyBoard = createBoard(rows, cols);
   const boardWithMines = fillBoardWithMines(emptyBoard, rows, cols, totalMines);
@@ -76,15 +98,14 @@ export const initBoard = (rows: number, cols: number, totalMines: number) => {
 };
 
 export const initGame = (rows: number, cols: number, totalMines: number) => {
-  // const boardInStorage = localStorage.getItem(LOCAL_STORAGE_KEYS.gameBoard);
-  // console.log("boardInStorage: ", boardInStorage);
-
-  // if (boardInStorage) {
-  //   return JSON.parse(boardInStorage) as TBoard;
-  // }
-
   return initBoard(rows, cols, totalMines);
 };
+
+/**
+ * Reveal all connected empty cells when player clicks on an empty cell
+ * Uses a queue-based flood fill algorithm to reveal all connected empty cells (BFS)
+ * BFS because it's more efficient than recursive DFS for large grids
+ */
 
 export const revealEmptyCells = (
   board: TBoard,
@@ -123,6 +144,12 @@ export const revealEmptyCells = (
   return board;
 };
 
+/**
+ * Reveal all mines at the end of the game
+ * Used when player loses (hits a mine) or wins
+ * If highlightWin is true, the mines will be highlighted in green
+ */
+
 export const revealAllMines = (board: TBoard, highlightWin?: boolean) => {
   board.forEach((row) => {
     row.forEach((cell) => {
@@ -135,6 +162,13 @@ export const revealAllMines = (board: TBoard, highlightWin?: boolean) => {
     });
   });
 };
+
+/**
+ * Check if the game is won
+ * Win conditions:
+ * 1. Number of unopened cells is equal to the number of mines
+ * 2. All mines are flagged
+ */
 
 export const checkGameWin = (board: TBoard, totalMines: number) => {
   let unopenedCells = 0;

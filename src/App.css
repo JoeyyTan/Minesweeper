@@ -340,44 +340,6 @@ button:hover {
   box-shadow: 0 8px 15px rgba(138, 73, 255, 0.3);
 }
 
-/* Difficulty meter */
-.difficulty-meter {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  background-color: #f8f8f8;
-  border-radius: 12px;
-  padding: 15px;
-}
-
-.difficulty-label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  font-weight: 600;
-}
-
-.difficulty-bar {
-  height: 8px;
-  background-color: #eaeaea;
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-}
-
-.difficulty-fill {
-  height: 100%;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-.difficulty-percentage {
-  text-align: right;
-  margin-top: 6px;
-  font-size: 13px;
-  color: #777;
-}
-
 /* Button Styles */
 .btn-primary {
   background: var(--primary-gradient);

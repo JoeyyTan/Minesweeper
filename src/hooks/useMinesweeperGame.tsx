@@ -11,11 +11,14 @@ import {
 
 import type { TBoard, TLevel, CustomGameSettings } from "../types";
 
+// Main game hook that manages game state and logic
 const useMinesweeperGame = () => {
+  // State for game difficulty level and custom settings
   const [level, setLevel] = useState<TLevel>("easy");
   const [customSettings, setCustomSettings] = useState<CustomGameSettings>(LEVELS.custom);
   const currentLevel = level === "custom" ? customSettings : LEVELS[level as keyof typeof LEVELS];
 
+  // Callbacks for changing level and custom settings 
   const changeLevel = useCallback((selectedLevel: TLevel) => {
     setLevel(selectedLevel);
   }, []);
@@ -25,6 +28,7 @@ const useMinesweeperGame = () => {
     setLevel("custom");
   }, []);
 
+  // Initialize game board with default level
   const [gameBoard, setGameBoard] = useState<TBoard>(
     initGame(
       LEVELS[DEFAULT_LEVEL].rows,
@@ -33,16 +37,20 @@ const useMinesweeperGame = () => {
     )
   );
 
+  // Game state flags
   const [isGameWin, setIsGameWin] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const isGameEnded = isGameWin || isGameOver;
 
+  // Flags and mines left
   const [totalFlags, setTotalFlags] = useState(0);
   const minesLeft = currentLevel.totalMines - totalFlags;
 
+  // Timer functionality from useTimer hook
   const { timeDiff, isTimerRunning, startTimer, stopTimer, resetTimer } =
     useTimer();
 
+  // Board reset logic for new game or restart 
   const resetBoard = useCallback(
     (isRestart?: boolean) => {
       stopTimer();
@@ -76,6 +84,7 @@ const useMinesweeperGame = () => {
     [currentLevel, resetTimer, stopTimer]
   );
 
+  // Helper functions for starting and restarting the game
   const startNewGame = useCallback(() => {
     resetBoard();
   }, [resetBoard]);
@@ -84,34 +93,42 @@ const useMinesweeperGame = () => {
     resetBoard(true);
   }, [resetBoard]);
 
+  // Stop timer when game ends
   useEffect(() => {
     if (isGameEnded) {
       stopTimer();
     }
   }, [isGameEnded, stopTimer]);
 
+  // Start new game when level changes
   useEffect(() => {
     startNewGame();
   }, [level, startNewGame]);
 
+  // Open cell logic
   const openCell = useCallback(
     (board: TBoard, row: number, col: number): TBoard | null => {
+      // Start timer on first click
       if (!isTimerRunning) startTimer();
 
+      // Create a deep copy of the board to avoid mutating the original board
       const newGameBoard: TBoard = JSON.parse(JSON.stringify(board));
       const cell = newGameBoard[row][col];
       const isMineCell = cell.value === "mine";
       const isNumberCell = typeof cell.value === "number" && cell.value > 0;
 
       if (isMineCell) {
+        // Player clicked on a mine aka game over
         cell.highlight = "red";
         setIsGameOver(true);
         revealAllMines(newGameBoard);
       }
 
       if (!isMineCell) {
+        // Open the cell
         cell.isOpened = true;
         if (cell.value === 0) {
+          // If the cell is empty, reveal all connected empty cells
           revealEmptyCells(
             newGameBoard,
             currentLevel.rows,
@@ -122,9 +139,12 @@ const useMinesweeperGame = () => {
         }
 
         if (isNumberCell) {
+          // If the cell is a number, reveal the cell
+          cell.isOpened = true;
         }
 
         if (checkGameWin(newGameBoard, currentLevel.totalMines)) {
+          // If the game is won, reveal all mines
           revealAllMines(newGameBoard, true);
           setIsGameWin(true);
         }
@@ -135,8 +155,10 @@ const useMinesweeperGame = () => {
     [currentLevel, isTimerRunning, startTimer]
   );
 
+  // Handle left click on a cell
   const handleCellLeftClick = useCallback(
     (row: number, col: number) => {
+      // If game is over, return null
       if (
         isGameEnded ||
         gameBoard[row][col].isOpened ||
@@ -152,6 +174,7 @@ const useMinesweeperGame = () => {
       let newGameBoard: TBoard;
 
       if (isFirstClickOnMine) {
+        // If the first click is on a mine, initialize a new board (first-click safety)
         do {
           newGameBoard = initBoard(
             currentLevel.rows,
@@ -172,12 +195,15 @@ const useMinesweeperGame = () => {
     [isGameEnded, gameBoard, isTimerRunning, openCell, currentLevel]
   );
 
+  // Handle right click on a cell
   const handleCellRightClick = useCallback(
     (e: MouseEvent<HTMLDivElement>, row: number, col: number) => {
       e.preventDefault();
 
+      // If game is over or cell is already opened, return
       if (isGameEnded || gameBoard[row][col].isOpened) return;
 
+      // Start timer on first click
       if (!isTimerRunning) startTimer();
 
       let flagsDiff = 0;
@@ -187,15 +213,18 @@ const useMinesweeperGame = () => {
         const cell = prevGameBoard[row][col];
 
         if (cell.isFlagged) {
+          // If cell is flagged, unflag it
           newGameBoard[row][col].isFlagged = false;
           if (!flagsDiff) flagsDiff--;
         }
 
         if (!cell.isFlagged) {
+          // If cell is not flagged, flag it
           newGameBoard[row][col].isFlagged = true;
           if (!flagsDiff) flagsDiff++;
         }
 
+        // Check if winning by flagging all mines
         if (checkGameWin(newGameBoard, currentLevel.totalMines)) {
           revealAllMines(newGameBoard, true);
           setIsGameWin(true);
@@ -204,6 +233,7 @@ const useMinesweeperGame = () => {
         return newGameBoard;
       });
 
+      // Update total flags
       setTotalFlags((prevTotalFlags) => prevTotalFlags + flagsDiff);
     },
     [

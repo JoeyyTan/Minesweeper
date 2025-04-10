@@ -50,31 +50,6 @@ const CustomGameForm = ({ onSubmit, defaultSettings, isVisible }: CustomGameForm
     onSubmit(settings);
   };
 
-  // Calculate difficulty level based on mine density
-  const getMinePercentage = () => {
-    const totalCells = settings.rows * settings.cols;
-    const percentage = (settings.totalMines / totalCells) * 100;
-    return percentage.toFixed(1);
-  };
-
-  const getDifficultyText = () => {
-    const percentage = parseFloat(getMinePercentage());
-    
-    if (percentage < 10) return "Easy";
-    if (percentage < 20) return "Medium";
-    if (percentage < 30) return "Hard";
-    return "Expert";
-  };
-
-  const getDifficultyColor = () => {
-    const percentage = parseFloat(getMinePercentage());
-    
-    if (percentage < 10) return "#4fd1d9";
-    if (percentage < 20) return "#ffdc5c";
-    if (percentage < 30) return "#ff9c24";
-    return "#ff5975";
-  };
-
   return (
     <div className="custom-game-form">
       <h3>Design Your Minesweeper</h3>
@@ -114,25 +89,6 @@ const CustomGameForm = ({ onSubmit, defaultSettings, isVisible }: CustomGameForm
             value={settings.totalMines}
             onChange={handleChange}
           />
-        </div>
-
-        <div className="difficulty-meter">
-          <div className="difficulty-label">
-            <span>Difficulty:</span>
-            <span style={{ color: getDifficultyColor() }}>{getDifficultyText()}</span>
-          </div>
-          <div className="difficulty-bar">
-            <div 
-              className="difficulty-fill" 
-              style={{ 
-                width: `${Math.min(100, parseFloat(getMinePercentage()) * 2)}%`,
-                backgroundColor: getDifficultyColor()
-              }}
-            ></div>
-          </div>
-          <div className="difficulty-percentage">
-            {getMinePercentage()}% mines
-          </div>
         </div>
 
         {error && <div className="error">{error}</div>}
