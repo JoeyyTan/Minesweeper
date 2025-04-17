@@ -21,7 +21,7 @@ function App() {
     minesLeft,
     timeDiff,
     startNewGame,
-    restartGame,
+    // restartGame,
     handleCellLeftClick,
     handleCellRightClick,
     isGameWin,
@@ -37,7 +37,7 @@ function App() {
         isGameEnded={isGameEnded}
         minesLeft={minesLeft}
         startNewGame={startNewGame}
-        restartGame={restartGame}
+        // restartGame={restartGame}
         timeDiff={timeDiff}
       />
       <Board

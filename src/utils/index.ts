@@ -114,20 +114,20 @@ export const revealEmptyCells = (
   row: number,
   col: number
 ) => {
-  const queue: [number, number][] = [[row, col]]; // Queue of cell coordinates
+  const queue: [number, number][] = [[row, col]]; // Queue of cell coordinates to check 
 
   while (queue.length > 0) {
-    const [currentRow, currentCol] = queue.shift()!; // Dequeue the next cell
+    const [currentRow, currentCol] = queue.shift()!; // Loop until the queue is empty (FIFO)
 
     const cell = board[currentRow][currentCol];
-    cell.isOpened = true;
+    cell.isOpened = true; // Open the cell and mark as revealed 
 
-    if (cell.value === 0) {
-      for (const [dRow, dCol] of DIRECTIONS) {
+    if (cell.value === 0) { // If cell is empty, explore all adjacent cells
+      for (const [dRow, dCol] of DIRECTIONS) { // Check all 8 directions 
         const newRow = currentRow + dRow;
         const newCol = currentCol + dCol;
 
-        if (
+        if ( // Add valid, unopened, and unflagged adjacent cells to queue
           newRow >= 0 &&
           newRow < rows &&
           newCol >= 0 &&
@@ -135,7 +135,7 @@ export const revealEmptyCells = (
           !board[newRow][newCol].isOpened &&
           !board[newRow][newCol].isFlagged
         ) {
-          queue.push([newRow, newCol]); // Add adjacent empty cells to queue
+          queue.push([newRow, newCol]); // Push the adjacent cell to the queue
         }
       }
     }

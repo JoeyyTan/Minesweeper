@@ -89,9 +89,9 @@ const useMinesweeperGame = () => {
     resetBoard();
   }, [resetBoard]);
 
-  const restartGame = useCallback(() => {
-    resetBoard(true);
-  }, [resetBoard]);
+  // const restartGame = useCallback(() => {
+  //   resetBoard(true);
+  // }, [resetBoard]);
 
   // Stop timer when game ends
   useEffect(() => {
@@ -111,7 +111,7 @@ const useMinesweeperGame = () => {
       // Start timer on first click
       if (!isTimerRunning) startTimer();
 
-      // Create a deep copy of the board to avoid mutating the original board
+      // Create a deep copy (detect state change)of the board to avoid mutating the original board
       const newGameBoard: TBoard = JSON.parse(JSON.stringify(board));
       const cell = newGameBoard[row][col];
       const isMineCell = cell.value === "mine";
@@ -168,7 +168,7 @@ const useMinesweeperGame = () => {
       }
 
       const mineCell = gameBoard[row][col].value === "mine";
-      const isFirstClick = !isTimerRunning;
+      const isFirstClick = !isTimerRunning; // If timer is not running => first click
       const isFirstClickOnMine = mineCell && isFirstClick;
 
       let newGameBoard: TBoard;
@@ -254,7 +254,7 @@ const useMinesweeperGame = () => {
     minesLeft,
     timeDiff,
     startNewGame,
-    restartGame,
+    // restartGame,
     handleCellLeftClick,
     handleCellRightClick,
     isGameWin,
