@@ -155,10 +155,8 @@ const useMinesweeperGame = () => {
     [currentLevel, isTimerRunning, startTimer]
   );
 
-  // Handle left click on a cell
   const handleCellLeftClick = useCallback(
     (row: number, col: number) => {
-      // If game is over, return null
       if (
         isGameEnded ||
         gameBoard[row][col].isOpened ||
@@ -166,33 +164,29 @@ const useMinesweeperGame = () => {
       ) {
         return null;
       }
-
-      const mineCell = gameBoard[row][col].value === "mine";
-      const isFirstClick = !isTimerRunning; // If timer is not running => first click
-      const isFirstClickOnMine = mineCell && isFirstClick;
-
+  
       let newGameBoard: TBoard;
-
-      if (isFirstClickOnMine) {
-        // If the first click is on a mine, initialize a new board (first-click safety)
-        do {
-          newGameBoard = initBoard(
-            currentLevel.rows,
-            currentLevel.cols,
-            currentLevel.totalMines
-          );
-        } while (newGameBoard[row][col].value === "mine");
+  
+      // First click: generate safe board
+      if (!isTimerRunning) {
+        newGameBoard = initBoard( // Call initBoard, cell is excluded from the list of mine placement 
+          currentLevel.rows,
+          currentLevel.cols,
+          currentLevel.totalMines,
+          { row, col } // First click must be safe
+        );
+        startTimer();
       } else {
-        newGameBoard = JSON.parse(JSON.stringify(gameBoard));
+        newGameBoard = JSON.parse(JSON.stringify(gameBoard)); // Copy board 
       }
-
-      const boardAfterOpeningCell = openCell(newGameBoard, row, col);
-
+  
+      const boardAfterOpeningCell = openCell(newGameBoard, row, col); // Call openCell to reveal clicked cell
+  
       if (boardAfterOpeningCell) {
-        setGameBoard(boardAfterOpeningCell);
+        setGameBoard(boardAfterOpeningCell); // Update with new board 
       }
     },
-    [isGameEnded, gameBoard, isTimerRunning, openCell, currentLevel]
+    [isGameEnded, gameBoard, isTimerRunning, openCell, currentLevel, startTimer]
   );
 
   // Handle right click on a cell

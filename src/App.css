@@ -1,24 +1,9 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0.5rem;
+  padding: 1rem;
   text-align: center;
   position: relative;
-}
-
-#root::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 10% 20%, rgba(255, 89, 117, 0.05) 0%, transparent 20%),
-    radial-gradient(circle at 85% 60%, rgba(79, 209, 217, 0.05) 0%, transparent 30%),
-    radial-gradient(circle at 40% 80%, rgba(138, 73, 255, 0.05) 0%, transparent 25%),
-    radial-gradient(circle at 70% 10%, rgba(255, 220, 92, 0.05) 0%, transparent 25%);
-  z-index: -1;
 }
 
 /* Decorative elements */
@@ -35,7 +20,10 @@
 }
 
 .game {
-  padding: 1rem 1.5rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1rem;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
   background-color: var(--surface);
   border-radius: 1.5rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -52,7 +40,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
+  height: 8px;
   background: var(--primary-gradient);
   z-index: 1;
 }
@@ -82,7 +70,7 @@
 }
 
 .cell.small {
-  --cell-size: 1.5rem;
+  --cell-size: 1.7rem;
 }
 
 .cell img {
@@ -171,8 +159,8 @@ header {
   white-space: nowrap;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   gap: 0.5rem;
-  /* margin-bottom: 0.5rem; */
 }
+
 
 .header-buttons {
   width: 70%;

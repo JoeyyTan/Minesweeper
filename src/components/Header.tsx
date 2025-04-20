@@ -37,17 +37,12 @@ const Header = ({
         >
           New
         </button>
-        {/* <button 
-          onClick={restartGame}
-          className="btn-secondary"
-        >
-          Restart
-        </button> */}
       </div>
       <div className="header-label">
         <TimerDisplay timeDiff={timeDiff} />
       </div>
     </header>
+    
   );
 };
 

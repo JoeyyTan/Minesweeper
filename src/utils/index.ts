@@ -1,4 +1,4 @@
-import { GameCell, TBoard } from "../types";
+import { TBoard } from "../types";
 import { DIRECTIONS } from "../constants";
 
 /**
@@ -21,33 +21,6 @@ const createBoard = (rows: number, cols: number) => {
     }
   }
 
-  return board;
-};
-
-/**
- * Randomly places the specified number of mines on the board.
- * Uses a while loop to ensure that the number of mines is less than the total number of mines
- * and ensure exactly totalMines mines are placed on the board.
- * Avoids placing mines on the same cell.
- */
-
-const fillBoardWithMines = (
-  board: TBoard,
-  rows: number,
-  cols: number,
-  totalMines: number
-) => {
-  let mines = 0;
-
-  while (mines < totalMines) {
-    const row = Math.floor(Math.random() * rows);
-    const column = Math.floor(Math.random() * cols);
-
-    if (board[row][column].value !== "mine") {
-      (board[row][column] as GameCell).value = "mine";
-      mines++;
-    }
-  }
   return board;
 };
 
@@ -84,17 +57,57 @@ const fillBoardWithNumbers = (board: TBoard) => {
 };
 
 /**
- * Main board initialization function, combining all steps
- * 1. Create an empty board
- * 2. Place mines
- * 3. Calculate numbers for each cell
+ * Main board initialization function (with first-click safety).
+ * 
+ * Steps:
+ * 1. Create an empty board (no mines yet).
+ * 2. Build a list of valid cells to place mines.
+ *    - If safeCell is provided (first click), exclude that cell.
+ * 3. Randomly shuffle valid positions.
+ * 4. Place mines in the first N cells after shuffling.
+ * 5. Calculate numbers for all non-mine cells based on adjacent mines.
  */
-export const initBoard = (rows: number, cols: number, totalMines: number) => {
-  const emptyBoard = createBoard(rows, cols);
-  const boardWithMines = fillBoardWithMines(emptyBoard, rows, cols, totalMines);
-  const gameBoard = fillBoardWithNumbers(boardWithMines);
 
-  return gameBoard;
+// Fisher–Yates shuffle algorithm
+function shuffle<T>(array: T[]): void {
+  for (let i = array.length - 1; i > 0; i--) { // Loop backwards
+    const j = Math.floor(Math.random() * (i + 1)); // Pick a random index j between 0 and i 
+    [array[i], array[j]] = [array[j], array[i]]; // Swap array 
+  }
+}
+
+export const initBoard = (
+  rows: number,
+  cols: number,
+  totalMines: number,
+  safeCell?: { row: number; col: number }
+): TBoard => {
+  const board = createBoard(rows, cols);
+
+  // Filter out safe cells (possible cell), if safeCell provided it excludes cell from list 
+  const availableCells: { row: number; col: number }[] = [];
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const isSafe =
+        !safeCell || (row !== safeCell.row || col !== safeCell.col);
+
+      if (isSafe) {
+        availableCells.push({ row, col });
+      }
+    }
+  }
+
+  // Randomly reorders the list of safe positions, 
+  shuffle(availableCells); // Randomize locations 
+  const mineCells = availableCells.slice(0, totalMines); // First N random pos to place mine 
+
+  for (const { row, col } of mineCells) {
+    board[row][col].value = "mine"; // Fill board with mines 
+  }
+
+  // Step 3: Fill numbers
+  return fillBoardWithNumbers(board); // Calculate numbers around mines 
 };
 
 export const initGame = (rows: number, cols: number, totalMines: number) => {
