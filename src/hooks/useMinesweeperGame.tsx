@@ -89,10 +89,6 @@ const useMinesweeperGame = () => {
     resetBoard();
   }, [resetBoard]);
 
-  // const restartGame = useCallback(() => {
-  //   resetBoard(true);
-  // }, [resetBoard]);
-
   // Stop timer when game ends
   useEffect(() => {
     if (isGameEnded) {
@@ -248,7 +244,6 @@ const useMinesweeperGame = () => {
     minesLeft,
     timeDiff,
     startNewGame,
-    // restartGame,
     handleCellLeftClick,
     handleCellRightClick,
     isGameWin,
