@@ -210,5 +210,4 @@ export const getTimeDiff = (timeNow: Date | null, timeStarted: Date | null) => {
     minute: "2-digit",
     second: "numeric",
   }).format(timeNow.getTime() - timeStarted.getTime());
-  // return Math.floor((timeNow.getTime() - startTime.getTime()) / 1000);
 };

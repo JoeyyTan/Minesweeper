@@ -113,7 +113,7 @@ const useMinesweeperGame = () => {
       const isMineCell = cell.value === "mine";
       const isNumberCell = typeof cell.value === "number" && cell.value > 0;
 
-      if (isMineCell) {
+      if (isMineCell) { 
         // Player clicked on a mine aka game over
         cell.highlight = "red";
         setIsGameOver(true);
